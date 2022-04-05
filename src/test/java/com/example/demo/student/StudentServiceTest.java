@@ -87,8 +87,30 @@ class StudentServiceTest {
     }
 
     @Test
-    @Disabled
-    void deleteStudent() {
+    void canDeleteStudent() {
+        // given
+        Student student = new Student(
+                55L,
+                "Jamila",
+                "jamila@gmail.com",
+                Gender.FEMALE);
 
+        underTest.addStudent(student);
+
+        given(studentRepository.existsById(student.getId()))
+                .willReturn(true);
+
+        //when
+        underTest.deleteStudent(student.getId());
+
+        //then
+        ArgumentCaptor<Student> studentArgumentCaptor =
+                ArgumentCaptor.forClass(Student.class);
+        verify(studentRepository)
+                .deleteById(student.getId());
+//
+//        Student capturedStudent = studentArgumentCaptor.getValue();
+//
+//        assertThat(capturedStudent).isEqualTo(student);
     }
 }
